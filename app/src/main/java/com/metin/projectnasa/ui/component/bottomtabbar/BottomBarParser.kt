@@ -1,11 +1,10 @@
-package com.metin.projectnasa.ui.components.bottomtabbar
+package com.metin.projectnasa.ui.component.bottomtabbar
 
 import android.content.Context
 import android.content.res.Resources
 import android.content.res.XmlResourceParser
 import android.graphics.drawable.Drawable
 import androidx.annotation.XmlRes
-import androidx.core.content.ContextCompat
 
 internal class BottomBarParser(private val context: Context, @XmlRes res: Int) {
 

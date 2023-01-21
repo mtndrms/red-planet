@@ -1,4 +1,4 @@
-package com.metin.projectnasa.ui.components.bottomtabbar
+package com.metin.projectnasa.ui.component.bottomtabbar
 
 interface OnItemReselectedListener {
     fun onItemReselect(pos: Int)

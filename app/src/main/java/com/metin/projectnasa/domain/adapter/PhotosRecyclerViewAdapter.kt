@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso
 
 class PhotosRecyclerViewAdapter(
     private val context: Context,
-    private val photos: List<Photo>
+    private var photos: MutableList<Photo>
 ) :
     RecyclerView.Adapter<PhotosRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -45,6 +45,22 @@ class PhotosRecyclerViewAdapter(
                 "Details Fragment Dialog"
             )
         }
+    }
+
+    // normally use this before filtering
+    fun resetDataSet() {
+        photos.clear()
+        notifyDataSetChanged()
+    }
+
+    // if data set change update it, this also changes the photo displayed in the ui
+    fun updateDataSet(list: MutableList<Photo>) {
+        val before = photos.size
+        photos = list
+        notifyItemRangeInserted(
+            photos.size - (photos.size - before),
+            photos.size
+        ) //or we can implement a DiffUtil.Callback
     }
 
     override fun getItemCount(): Int = photos.size

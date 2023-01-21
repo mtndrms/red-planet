@@ -5,26 +5,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
-abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener {
+abstract class EndlessRecyclerViewScrollListener(layoutManager: GridLayoutManager) :
+    RecyclerView.OnScrollListener() {
 
     private var visibleThreshold = 5
     private var currentPage = 0
     private var previousTotalItemCount = 0
     private var loading = true
     private val startingPageIndex = 0
-    private var mLayoutManager: RecyclerView.LayoutManager
+    private var mLayoutManager: RecyclerView.LayoutManager = layoutManager
 
-    constructor(layoutManager: LinearLayoutManager) {
-        mLayoutManager = layoutManager
-    }
-
-    constructor(layoutManager: GridLayoutManager) {
-        mLayoutManager = layoutManager
-        visibleThreshold *= layoutManager.spanCount
-    }
-
-    constructor(layoutManager: StaggeredGridLayoutManager) {
-        mLayoutManager = layoutManager
+    init {
         visibleThreshold *= layoutManager.spanCount
     }
 

@@ -14,7 +14,7 @@
         android:layout_margin="10dp"
         android:fontFamily="@font/jost_semi_bold"
         android:text="@string/red_planet"
-        android:textColor="@color/dark_orange"
+        android:textColor="@color/orange"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,20 +31,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/gray" />
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cgChips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btFilter"
+        app:singleSelection="true" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPhotos"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@id/tbBottomTabBar"
-        app:layout_constraintTop_toBottomOf="@id/tvLabel" />
+        app:layout_constraintTop_toBottomOf="@id/cgChips" />
 
-    <com.metin.projectnasa.ui.components.bottomtabbar.BottomTabBar
+    <com.metin.projectnasa.ui.component.bottomtabbar.BottomTabBar
         android:id="@+id/tbBottomTabBar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:contentDescription="@string/bottom_navigation_bar"
-        app:backgroundColor="@color/dark_orange"
+        app:backgroundColor="@color/orange"
         app:itemFontFamily="@font/jost_regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_navigation_bar" />

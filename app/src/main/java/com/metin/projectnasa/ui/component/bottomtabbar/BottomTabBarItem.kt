@@ -1,4 +1,4 @@
-package com.metin.projectnasa.ui.components.bottomtabbar
+package com.metin.projectnasa.ui.component.bottomtabbar
 
 import android.graphics.RectF
 

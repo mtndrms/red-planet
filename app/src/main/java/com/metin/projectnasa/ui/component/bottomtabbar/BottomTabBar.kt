@@ -1,4 +1,4 @@
-package com.metin.projectnasa.ui.components.bottomtabbar
+package com.metin.projectnasa.ui.component.bottomtabbar
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
@@ -21,7 +21,7 @@ import androidx.annotation.XmlRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import com.metin.projectnasa.R
-import com.metin.projectnasa.utils.ContextExtensions.d2p
+import com.metin.projectnasa.utils.ContextExtensions.dp2px
 
 class BottomTabBar @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -42,24 +42,24 @@ class BottomTabBar @JvmOverloads constructor(
     private var _barIndicatorColor = Color.parseColor(DEFAULT_INDICATOR_COLOR)
 
     @Dimension
-    private var _barIndicatorRadius = context.d2p(DEFAULT_INDICATOR_CORNER_RADIUS)
+    private var _barIndicatorRadius = context.dp2px(DEFAULT_INDICATOR_CORNER_RADIUS)
 
     @Dimension
-    private var _barSideMargins = context.d2p(DEFAULT_SIDE_MARGIN)
+    private var _barSideMargins = context.dp2px(DEFAULT_SIDE_MARGIN)
 
     @Dimension
-    private var _barCornerRadius = context.d2p(DEFAULT_BAR_CORNER_RADIUS)
+    private var _barCornerRadius = context.dp2px(DEFAULT_BAR_CORNER_RADIUS)
     private var _barCorners = DEFAULT_BAR_CORNERS
 
     @Dimension
-    private var _itemPadding = context.d2p(DEFAULT_ITEM_PADDING)
+    private var _itemPadding = context.dp2px(DEFAULT_ITEM_PADDING)
     private var _itemAnimDuration = DEFAULT_ANIM_DURATION
 
     @ColorInt
     private var _itemTextColor = Color.WHITE
 
     @Dimension
-    private var _itemTextSize = context.d2p(DEFAULT_TEXT_SIZE)
+    private var _itemTextSize = context.dp2px(DEFAULT_TEXT_SIZE)
 
     @FontRes
     private var _itemFontFamily: Int = INVALID_RES
@@ -369,16 +369,16 @@ class BottomTabBar @JvmOverloads constructor(
         }
 
         // Draw indicator
-        rect.left = indicatorLocation + context.d2p(
+        rect.left = indicatorLocation + context.dp2px(
             DEFAULT_SIDE_MARGIN
         )
-        rect.top = (items[itemActiveIndex].rect.centerY() - itemPadding - (context.d2p(
+        rect.top = (items[itemActiveIndex].rect.centerY() - itemPadding - (context.dp2px(
             DEFAULT_SIDE_MARGIN
         ) / 1.5)).toFloat()
-        rect.right = indicatorLocation + itemWidth - context.d2p(
+        rect.right = indicatorLocation + itemWidth - context.dp2px(
             DEFAULT_SIDE_MARGIN
         )
-        rect.bottom = (items[itemActiveIndex].rect.centerY() + itemPadding + (context.d2p(
+        rect.bottom = (items[itemActiveIndex].rect.centerY() + itemPadding + (context.dp2px(
             DEFAULT_SIDE_MARGIN
         ) / 1.5)).toFloat()
 
@@ -471,7 +471,6 @@ class BottomTabBar @JvmOverloads constructor(
         }
     }
 
-    // show selected item's text -> it's normally transparent but when selected opaque
     private fun animateAlpha(item: BottomTabBarItem) {
         ValueAnimator.ofInt(item.alpha, 255).apply {
             duration = DEFAULT_ANIM_DURATION
@@ -484,17 +483,6 @@ class BottomTabBar @JvmOverloads constructor(
         }
     }
 
-
-    /**
-     * Created by Vladislav Perevedentsev on 29.07.2020.
-     *
-     * Just call [SmoothBottomBar.setOnItemSelectedListener] to override [onItemSelectedListener]
-     *
-     * @sample
-     * setOnItemSelectedListener { position ->
-     *     //TODO: Something
-     * }
-     */
     fun setOnItemSelectedListener(listener: (position: Int) -> Unit) {
         onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelect(pos: Int): Boolean {
