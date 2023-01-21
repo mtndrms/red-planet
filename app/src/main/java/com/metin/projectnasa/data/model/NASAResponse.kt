@@ -1,5 +1,5 @@
 package com.metin.projectnasa.data.model
 
-data class Response(
+data class NASAResponse(
     val photos: List<Photo>
 )

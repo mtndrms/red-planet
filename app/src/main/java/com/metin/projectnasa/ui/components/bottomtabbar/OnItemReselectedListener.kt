@@ -1,4 +1,4 @@
-package com.zzleeper.zzleeper.presentation.components.bottomNavigationBar
+package com.metin.projectnasa.ui.components.bottomtabbar
 
 interface OnItemReselectedListener {
     fun onItemReselect(pos: Int)

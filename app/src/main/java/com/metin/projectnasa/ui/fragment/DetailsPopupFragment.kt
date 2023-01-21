@@ -11,11 +11,11 @@ import com.metin.projectnasa.R
 import com.metin.projectnasa.data.model.Photo
 import com.squareup.picasso.Picasso
 
-class DialogFragment : androidx.fragment.app.DialogFragment() {
-    fun newInstance(photo: Photo): DialogFragment {
+class DetailsPopupFragment : androidx.fragment.app.DialogFragment() {
+    fun newInstance(photo: Photo): DetailsPopupFragment {
         val args = Bundle()
         args.putSerializable("photo", photo)
-        val fragment = DialogFragment()
+        val fragment = DetailsPopupFragment()
         fragment.arguments = args
         return fragment
     }

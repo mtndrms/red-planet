@@ -1,4 +1,4 @@
-package com.metin.projectnasa.data.model.newmodel
+package com.metin.projectnasa.data.model
 
 data class Camera(
     val full_name: String,

@@ -4,15 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.MainActivity">
+    android:background="@color/gray"
+    tools:context=".ui.activity.HomeActivity">
 
     <TextView
+        android:id="@+id/tvLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/jost_semi_bold"
+        android:text="@string/red_planet"
+        android:textColor="@color/dark_orange"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/btFilter"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_button_filter"
+        android:contentDescription="@string/filter"
+        android:src="@drawable/ic_filter_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/gray" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPhotos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@id/tbBottomTabBar"
+        app:layout_constraintTop_toBottomOf="@id/tvLabel" />
+
+    <com.metin.projectnasa.ui.components.bottomtabbar.BottomTabBar
+        android:id="@+id/tbBottomTabBar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:contentDescription="@string/bottom_navigation_bar"
+        app:backgroundColor="@color/dark_orange"
+        app:itemFontFamily="@font/jost_regular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_navigation_bar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

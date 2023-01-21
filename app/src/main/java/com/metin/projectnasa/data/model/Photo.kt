@@ -1,4 +1,4 @@
-package com.metin.projectnasa.data.model.newmodel
+package com.metin.projectnasa.data.model
 
 data class Photo(
     val camera: Camera,
@@ -7,4 +7,4 @@ data class Photo(
     val img_src: String,
     val rover: Rover,
     val sol: Int
-)
+) : java.io.Serializable
