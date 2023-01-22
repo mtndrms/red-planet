@@ -1,4 +1,4 @@
-package com.metin.projectnasa.ui.component.bottomtabbar
+package com.metin.projectnasa.presentation.component.bottomtabbar
 
 import android.graphics.Rect
 import android.os.Bundle

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    tools:context=".ui.activity.HomeActivity">
+    tools:context=".presentation.activity.HomeActivity">
 
     <TextView
         android:id="@+id/tvLabel"
@@ -20,6 +20,34 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:id="@+id/btChangeSolValue"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bg_button_filter"
+        android:contentDescription="@string/filter"
+        android:src="@drawable/ic_calendar"
+        app:layout_constraintEnd_toStartOf="@id/btFilter"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/gray" />
+
+    <ImageButton
+        android:id="@+id/btClearFilter"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/bg_button_filter"
+        android:backgroundTint="@color/gray"
+        android:contentDescription="@string/filter"
+        android:src="@drawable/ic_close"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@id/btChangeSolValue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/orange" />
+
+    <ImageButton
         android:id="@+id/btFilter"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -31,25 +59,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/gray" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/cgChips"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/btFilter"
-        app:singleSelection="true" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPhotos"
-        android:layout_width="match_parent"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_layout"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@id/tbBottomTabBar"
-        app:layout_constraintTop_toBottomOf="@id/cgChips" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvLabel"
+        tools:visibility="gone">
 
-    <com.metin.projectnasa.ui.component.bottomtabbar.BottomTabBar
+        <include
+            layout="@layout/recyclerview_loading_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="1" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPhotos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tbBottomTabBar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvLabel" />
+
+    <com.metin.projectnasa.presentation.component.bottomtabbar.BottomTabBar
         android:id="@+id/tbBottomTabBar"
         android:layout_width="match_parent"
         android:layout_height="70dp"

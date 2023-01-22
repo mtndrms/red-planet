@@ -1,7 +1,6 @@
 package com.metin.projectnasa.data.service
 
-import com.metin.projectnasa.data.model.NASAResponse
-import com.metin.projectnasa.utils.Constants
+import com.metin.projectnasa.data.model.NASAResponseDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,8 +12,8 @@ interface NASAService {
     fun getPhotosByRover(
         @Path("roverName") roverName: String,
         @Query("sol") sol: Int,
-        @Query("camera") camera: String? = null,
-        @Query("api_key") api_key: String? = null,
+        @Query("camera") camera: String?,
+        @Query("api_key") api_key: String?,
         @Query("page") page: Int
-    ): Call<NASAResponse>
+    ): Call<NASAResponseDto>
 }

@@ -1,12 +1,12 @@
 package com.metin.projectnasa.di
 
+import androidx.lifecycle.ViewModelStoreOwner
 import com.metin.projectnasa.data.ApiClient
-import com.metin.projectnasa.data.repository.NASARepositoryImpl
 import com.metin.projectnasa.data.service.NASAService
-import com.metin.projectnasa.domain.repository.NASARepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton

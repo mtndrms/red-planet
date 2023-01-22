@@ -15,5 +15,6 @@
         <!-- Navigation bar color. -->
         <item name="android:navigationBarColor">@color/orange</item>
         <!-- Customize your theme here. -->
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
     </style>
 </resources>

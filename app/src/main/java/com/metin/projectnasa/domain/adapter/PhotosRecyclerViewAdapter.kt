@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.metin.projectnasa.R
 import com.metin.projectnasa.data.model.Photo
-import com.metin.projectnasa.ui.fragment.DetailsPopupFragment
+import com.metin.projectnasa.presentation.fragment.details.DetailsPopupFragment
 import com.squareup.picasso.Picasso
+import okhttp3.internal.notify
+import okhttp3.internal.notifyAll
 
 class PhotosRecyclerViewAdapter(
     private val context: Context,
@@ -53,10 +55,16 @@ class PhotosRecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
+    fun pushFilteredList(list: List<Photo>) {
+        photos.clear()
+        photos.addAll(list)
+        notifyDataSetChanged()
+    }
+
     // if data set change update it, this also changes the photo displayed in the ui
-    fun updateDataSet(list: MutableList<Photo>) {
+    fun updateDataSet(list: List<Photo>) {
         val before = photos.size
-        photos = list
+        photos = list as MutableList<Photo>
         notifyItemRangeInserted(
             photos.size - (photos.size - before),
             photos.size

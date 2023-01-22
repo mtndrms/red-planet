@@ -1,6 +1,6 @@
 package com.metin.projectnasa.data
 
-import com.metin.projectnasa.utils.Constants
+import com.metin.projectnasa.common.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

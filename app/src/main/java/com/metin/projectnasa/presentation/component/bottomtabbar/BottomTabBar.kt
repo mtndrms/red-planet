@@ -1,4 +1,4 @@
-package com.metin.projectnasa.ui.component.bottomtabbar
+package com.metin.projectnasa.presentation.component.bottomtabbar
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
@@ -21,7 +21,7 @@ import androidx.annotation.XmlRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import com.metin.projectnasa.R
-import com.metin.projectnasa.utils.ContextExtensions.dp2px
+import com.metin.projectnasa.common.ContextExtensions.dp2px
 
 class BottomTabBar @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

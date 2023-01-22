@@ -1,4 +1,4 @@
-package com.metin.projectnasa.utils
+package com.metin.projectnasa.common
 
 import android.content.Context
 import kotlin.math.roundToInt

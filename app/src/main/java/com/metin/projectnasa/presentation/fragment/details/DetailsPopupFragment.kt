@@ -1,4 +1,4 @@
-package com.metin.projectnasa.ui.fragment
+package com.metin.projectnasa.presentation.fragment.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
+import androidx.fragment.app.DialogFragment
 import com.metin.projectnasa.R
 import com.metin.projectnasa.data.model.Photo
 import com.squareup.picasso.Picasso
 
-class DetailsPopupFragment : androidx.fragment.app.DialogFragment() {
+class DetailsPopupFragment : DialogFragment() {
     fun newInstance(photo: Photo): DetailsPopupFragment {
         val args = Bundle()
         args.putSerializable("photo", photo)
@@ -26,7 +27,7 @@ class DetailsPopupFragment : androidx.fragment.app.DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.fragment_dialog, container, false);
+        return inflater.inflate(R.layout.fragment_detail, container, false);
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,7 +35,7 @@ class DetailsPopupFragment : androidx.fragment.app.DialogFragment() {
 
         // getSerializable(key, defaultValue)
         // Deprecated! Fix this later!
-        val photo = requireArguments().getSerializable("photo") as Photo
+        val photoDto = requireArguments().getSerializable("photo") as Photo
 
         val tvRoverName: TextView = view.findViewById(R.id.tvRoverName)
         val tvDatePhotoTaken: TextView = view.findViewById(R.id.tvDatePhotoTaken)
@@ -45,7 +46,7 @@ class DetailsPopupFragment : androidx.fragment.app.DialogFragment() {
         val ivPhoto: ImageView = view.findViewById(R.id.ivPhoto)
         val btClose: AppCompatButton = view.findViewById(R.id.btClose)
 
-        photo.run {
+        photoDto.run {
             tvRoverName.text = rover.name
             tvLaunchDate.text = rover.launch_date
             tvLandingDate.text = rover.landing_date

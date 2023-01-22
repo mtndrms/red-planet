@@ -1,19 +1,26 @@
-package com.metin.projectnasa.ui.fragment
+package com.metin.projectnasa.presentation.fragment.filter
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.metin.projectnasa.R
-import com.metin.projectnasa.utils.getCameraTypesByRover
+import com.metin.projectnasa.common.Constants.allCameras
+import com.metin.projectnasa.common.getCameraTypesByRover
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var cgFilterOptions: ChipGroup
+    private var rover: Int = 0
 
     fun newInstance(rover: Int): FilterBottomSheetFragment {
         val args = Bundle()
@@ -29,12 +36,33 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         dialog.setContentView(contentView)
         (contentView.parent as View).setBackgroundColor(resources.getColor(R.color.black))
 
-        createChips(contentView, requireArguments().getInt("rover", 0))
+        rover = requireArguments().getInt("rover", 0)
+        createChips(contentView, rover)
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+
+        val checked = cgFilterOptions.checkedChipId % 9
+
+        val selectedCamera = if (checked > 0) {
+            allCameras[checked - 1]
+        } else if (checked == 0) {
+            allCameras[8]
+        } else {
+            null
+        }
+
+        val activity: Activity? = activity
+        if (activity is FilterDialogDismissListener) (activity as FilterDialogDismissListener).handleDialogClose(
+            dialog,
+            selectedCamera
+        )
     }
 
     private fun createChips(contentView: View, rover: Int) {
         cgFilterOptions = contentView.findViewById(R.id.cgFilterOptions)
-        getCameraTypesByRover(rover).forEach {
+        allCameras.forEach {
             val chip = Chip(requireContext())
             chip.run {
                 text = it
@@ -49,6 +77,16 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.dark_orange
+                        )
+                    )
+            }
+            if (!getCameraTypesByRover(rover).contains(it)) {
+                chip.isClickable = false
+                chip.chipBackgroundColor =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.dark_gray
                         )
                     )
             }

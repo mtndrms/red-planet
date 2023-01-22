@@ -1,4 +1,4 @@
-package com.metin.projectnasa.utils
+package com.metin.projectnasa.common
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,7 +38,6 @@ abstract class EndlessRecyclerViewScrollListener(layoutManager: GridLayoutManage
             is StaggeredGridLayoutManager -> {
                 val lastVisibleItemPositions =
                     (mLayoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
-                // get maximum element within the list
                 lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
             }
             is GridLayoutManager -> {
