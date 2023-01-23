@@ -1,3 +1,12 @@
+## Features
+
+| Criteria                     | Status             |
+| ---------------------------- | ------------------ |
+| Pagination & infinite scroll | :heavy_check_mark: |
+| 3 tab design                 | :heavy_check_mark: |
+| Filter by camera             | :heavy_check_mark: |
+| Details pop up               | :heavy_check_mark: |
+
 ## Must
 
 | Criteria        | Status             |
@@ -15,12 +24,3 @@
 | Depenency Injection       | :heavy_check_mark: | Dagger - Hilt                            |
 | Unit Test                 | :x:                |                                          |
 | Additional Libraries Used | :heavy_check_mark: | Picasso, Dagger - Hilt, Facebook Shimmer |
-
-## Features
-
-| Criteria                     | Status             |
-| ---------------------------- | ------------------ |
-| Pagination & infinite scroll | :heavy_check_mark: |
-| 3 tab design                 | :heavy_check_mark: |
-| Filter by camera             | :heavy_check_mark: |
-| Details pop up               | :heavy_check_mark: |

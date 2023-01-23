@@ -45,7 +45,6 @@ class HomeActivityViewModel @Inject constructor(private val repository: NASARepo
                 response: Response<NASAResponseDto>
             ) {
                 if (response.isSuccessful) {
-                    println(call.request().url)
                     allPhotos.addAll((response.body() as NASAResponseDto).photos)
                     _photos.value = Resource.Success(allPhotos)
                 } else {
