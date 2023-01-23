@@ -24,3 +24,9 @@
 | Depenency Injection       | :heavy_check_mark: | Dagger - Hilt                            |
 | Unit Test                 | :x:                |                                          |
 | Additional Libraries Used | :heavy_check_mark: | Picasso, Dagger - Hilt, Facebook Shimmer |
+
+## Screen Record
+![Click here](./preview.mp4) or ![here](https://github.com/mtndrms/project-nasa/raw/master/preview.mp4) to download video directly
+
+## Screenshots
+<img src="./screenshots/0.png" width="256" height="480"><img src="./screenshots/1.png" width="256" height="480"><img src="./screenshots/2.png" width="256" height="480"><img src="./screenshots/3.png" width="256" height="480"><img src="./screenshots/4.png" width="256" height="480">
