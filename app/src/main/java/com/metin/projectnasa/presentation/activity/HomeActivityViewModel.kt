@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metin.projectnasa.domain.repository.NASARepository
 import com.metin.projectnasa.common.Constants
+import com.metin.projectnasa.common.Constants.DEFAULT_SOL_VALUE
 import com.metin.projectnasa.common.Resource
 import com.metin.projectnasa.common.filterByCamera
 import com.metin.projectnasa.data.model.NASAResponseDto
@@ -27,7 +28,7 @@ class HomeActivityViewModel @Inject constructor(private val repository: NASARepo
 
     // load first data as soon as new instance created
     init {
-        loadData(0, 1)
+        loadData(activeTab = 0, page = 1, sol = DEFAULT_SOL_VALUE)
     }
 
     fun resetData() {
@@ -35,14 +36,16 @@ class HomeActivityViewModel @Inject constructor(private val repository: NASARepo
         _photos.value = Resource.Success(allPhotos)
     }
 
-    fun loadData(activeTab: Int, page: Int, camera: String? = null) {
+    fun loadData(activeTab: Int, sol: Int, page: Int, camera: String? = null) {
         _photos.value = Resource.Loading(null)
-        requestData(camera, activeTab, page).enqueue(object : Callback<NASAResponseDto> {
+        requestData(camera = camera, sol = sol, activeTab = activeTab, page = page).enqueue(object :
+            Callback<NASAResponseDto> {
             override fun onResponse(
                 call: Call<NASAResponseDto>,
                 response: Response<NASAResponseDto>
             ) {
                 if (response.isSuccessful) {
+                    println(call.request().url)
                     allPhotos.addAll((response.body() as NASAResponseDto).photos)
                     _photos.value = Resource.Success(allPhotos)
                 } else {
@@ -67,11 +70,13 @@ class HomeActivityViewModel @Inject constructor(private val repository: NASARepo
     private fun requestData(
         camera: String? = null,
         activeTab: Int,
+        sol: Int,
         page: Int
     ): Call<NASAResponseDto> {
         return repository.getPhotosByRover(
             roverName = Constants.rovers[activeTab].lowercase(),
             camera = camera,
+            sol = sol,
             page = page
         )
     }

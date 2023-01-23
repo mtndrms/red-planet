@@ -75,5 +75,9 @@ abstract class EndlessRecyclerViewScrollListener(layoutManager: GridLayoutManage
         loading = true
     }
 
+    fun resetCurrentPageIndex() {
+        currentPage = startingPageIndex
+    }
+
     abstract fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?)
 }

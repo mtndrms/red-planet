@@ -8,13 +8,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.metin.projectnasa.R
 import com.metin.projectnasa.common.Constants.allCameras
 import com.metin.projectnasa.common.getCameraTypesByRover
+import com.metin.projectnasa.common.DialogDismissListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,18 +43,18 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        val checked = cgFilterOptions.checkedChipId % 9
+        val checked = cgFilterOptions.checkedChipId % allCameras.size
 
         val selectedCamera = if (checked > 0) {
             allCameras[checked - 1]
         } else if (checked == 0) {
-            allCameras[8]
+            allCameras[allCameras.size - 1]
         } else {
             null
         }
 
         val activity: Activity? = activity
-        if (activity is FilterDialogDismissListener) (activity as FilterDialogDismissListener).handleDialogClose(
+        if (activity is DialogDismissListener) (activity as DialogDismissListener).handleDialogClose(
             dialog,
             selectedCamera
         )

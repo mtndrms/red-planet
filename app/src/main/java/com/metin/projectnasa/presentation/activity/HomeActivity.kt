@@ -8,23 +8,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.metin.projectnasa.common.Constants.DEFAULT_SOL_VALUE
 import com.metin.projectnasa.domain.adapter.PhotosRecyclerViewAdapter
 import com.metin.projectnasa.presentation.fragment.filter.FilterBottomSheetFragment
 import com.metin.projectnasa.common.EndlessRecyclerViewScrollListener
 import com.metin.projectnasa.common.Resource
 import com.metin.projectnasa.data.model.Photo
 import com.metin.projectnasa.databinding.ActivityHomeBinding
-import com.metin.projectnasa.presentation.fragment.filter.FilterDialogDismissListener
+import com.metin.projectnasa.common.DialogDismissListener
+import com.metin.projectnasa.presentation.fragment.change_sol.ChangeSolValueFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity(), FilterDialogDismissListener {
+class HomeActivity : AppCompatActivity(), DialogDismissListener {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var photosRecyclerViewAdapter: PhotosRecyclerViewAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private var isFiltered = false
     private var activeTab = DEFAULT_ACTIVE_TAB
     private var camera: String? = null
+    private var sol = DEFAULT_SOL_VALUE
 
     private val viewModel: HomeActivityViewModel by lazy {
         ViewModelProvider(this)[HomeActivityViewModel::class.java]
@@ -43,9 +46,9 @@ class HomeActivity : AppCompatActivity(), FilterDialogDismissListener {
             binding.btClearFilter.visibility = View.INVISIBLE
             resetCollectionView()
             when (it) {
-                0 -> viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE)
-                1 -> viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE)
-                2 -> viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE)
+                0 -> viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
+                1 -> viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
+                2 -> viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
             }
         }
 
@@ -59,7 +62,13 @@ class HomeActivity : AppCompatActivity(), FilterDialogDismissListener {
             isFiltered = false
             resetCollectionView()
             binding.btClearFilter.visibility = View.INVISIBLE
-            viewModel.loadData(activeTab, DEFAULT_PAGE)
+            viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
+        }
+
+        binding.btChangeSolValue.setOnClickListener {
+            val bottomSheet: ChangeSolValueFragment =
+                ChangeSolValueFragment().newInstance(activeTab)
+            bottomSheet.show(supportFragmentManager, "FILTER_BOTTOM_SHEET_FRAGMENT")
         }
 
         photosRecyclerViewAdapter = PhotosRecyclerViewAdapter(this@HomeActivity, mutableListOf())
@@ -76,7 +85,9 @@ class HomeActivity : AppCompatActivity(), FilterDialogDismissListener {
                 // if any camera filter is chosen we need to add camera to our api request as a query param
                 // eger herhangi bir kamera filtresi aktifse, api istegi yapilan url'e camera query parametresi ekle
                 // boylece filter() calistiktan sonra yuklenen fotograflar filtre kapatilana kadar secilen kameradan gelir
-                viewModel.loadData(activeTab, page = page + 1, camera = camera)
+                viewModel.loadData(
+                    activeTab = activeTab, sol = sol, page = page + 1, camera = camera
+                )
             }
         }
         binding.rvPhotos.addOnScrollListener(scrollListener)
@@ -89,6 +100,7 @@ class HomeActivity : AppCompatActivity(), FilterDialogDismissListener {
         viewModel.resetData()
         scrollListener.resetState()
         camera = null
+        sol = DEFAULT_SOL_VALUE
     }
 
     private fun processScreenState(state: Resource<List<Photo>>) {
@@ -121,20 +133,35 @@ class HomeActivity : AppCompatActivity(), FilterDialogDismissListener {
         binding.rvPhotos.visibility = View.VISIBLE
     }
 
-    // runs as soon as filter dialog closed
-    override fun handleDialogClose(dialog: DialogInterface, selectedCamera: String?) {
-        if (selectedCamera != null) {
-            camera = selectedCamera.lowercase()
-            isFiltered = true
-            binding.btClearFilter.visibility = View.VISIBLE
-            viewModel.filter(selectedCamera)
-        } else {
-            camera = null
-        }
-    }
-
     companion object {
         const val DEFAULT_ACTIVE_TAB = 0
         const val DEFAULT_PAGE = 1
+    }
+
+    // runs as soon as dialog's closed
+    // TODO: not the best solution fix this
+    override fun <T> handleDialogClose(dialog: DialogInterface, value: T) {
+        if (value is String) {
+            if (value.isNotEmpty()) {
+                camera = value.lowercase()
+                isFiltered = true
+                binding.btClearFilter.visibility = View.VISIBLE
+                viewModel.filter(value)
+            } else {
+                camera = null
+            }
+        }
+
+        if (value is Int) {
+            val old = sol
+            sol = value
+            scrollListener.resetCurrentPageIndex()
+            if (value.toInt() != old) {
+                viewModel.loadData(
+                    activeTab = activeTab, page = DEFAULT_PAGE, sol = sol, camera = camera
+                )
+                binding.btClearFilter.visibility = View.VISIBLE
+            }
+        }
     }
 }
