@@ -9,10 +9,10 @@ abstract class InfiniteRecyclerViewScrollListener(layoutManager: GridLayoutManag
     RecyclerView.OnScrollListener() {
 
     private var visibleThreshold = 5
-    private var currentPage = 0
+    private var currentPage = 1
     private var previousTotalItemCount = 0
     private var loading = true
-    private val startingPageIndex = 0
+    private val startingPageIndex = 1
     private var mLayoutManager: RecyclerView.LayoutManager = layoutManager
 
     init {
@@ -77,6 +77,14 @@ abstract class InfiniteRecyclerViewScrollListener(layoutManager: GridLayoutManag
 
     fun resetCurrentPageIndex() {
         currentPage = startingPageIndex
+    }
+
+    fun setCurrentPageIndex(page: Int) {
+        currentPage = page
+    }
+
+    fun getCurrentPageIndex(): Int {
+        return currentPage
     }
 
     abstract fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?)

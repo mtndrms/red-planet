@@ -43,8 +43,7 @@ class PhotosRecyclerViewAdapter(
         holder.itemView.setOnClickListener {
             val detailsPopupFragment = DetailsPopupFragment().newInstance(photos[position])
             detailsPopupFragment.show(
-                (context as AppCompatActivity).supportFragmentManager,
-                "Details Fragment Dialog"
+                (context as AppCompatActivity).supportFragmentManager, "DETAILS_POP_UP_FRAGMENT"
             )
         }
     }

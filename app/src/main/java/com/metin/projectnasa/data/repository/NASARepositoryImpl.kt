@@ -1,6 +1,8 @@
 package com.metin.projectnasa.data.repository
 
 import com.metin.projectnasa.data.model.NASAResponseDto
+import com.metin.projectnasa.data.model.RoverX
+import com.metin.projectnasa.data.model.Rovers
 import com.metin.projectnasa.data.service.NASAService
 import com.metin.projectnasa.domain.repository.NASARepository
 import retrofit2.Call
@@ -21,5 +23,13 @@ class NASARepositoryImpl @Inject constructor(private val service: NASAService) :
             api_key,
             page
         )
+    }
+
+    override fun getAllRovers(): Call<Rovers> {
+        return service.getAllRovers()
+    }
+
+    override fun getRover(rover: String): Call<RoverX> {
+        return service.getRover(rover)
     }
 }

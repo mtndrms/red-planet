@@ -42,15 +42,34 @@
             android:textColor="@color/black"
             android:textColorHint="@color/dark_gray" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btClose"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:background="@drawable/bg_button_filter"
-            android:text="@string/done"
-            android:textAllCaps="false"
-            android:textColor="@color/gray" />
+            android:gravity="center_horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btRandom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_button_filter"
+                android:backgroundTint="@color/light_orange"
+                android:text="Random"
+                android:textAllCaps="false"
+                android:textColor="@color/gray" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_button_filter"
+                android:text="@string/done"
+                android:textAllCaps="false"
+                android:textColor="@color/gray" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.metin.projectnasa.common.Constants.DEFAULT_ACTIVE_TAB
+import com.metin.projectnasa.common.Constants.DEFAULT_PAGE
 import com.metin.projectnasa.common.Constants.DEFAULT_SOL_VALUE
 import com.metin.projectnasa.domain.adapter.PhotosRecyclerViewAdapter
 import com.metin.projectnasa.presentation.fragment.FilterBottomSheetFragment
@@ -28,6 +30,7 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
     private var activeTab = DEFAULT_ACTIVE_TAB
     private var camera: String? = null
     private var sol = DEFAULT_SOL_VALUE
+    private var page = DEFAULT_PAGE
 
     private val viewModel: HomeActivityViewModel by lazy {
         ViewModelProvider(this)[HomeActivityViewModel::class.java]
@@ -40,16 +43,24 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
 
         val gridLayoutManager = GridLayoutManager(this, 3)
 
+        if (savedInstanceState != null) {
+            camera = savedInstanceState.getString("camera", null)
+            sol = savedInstanceState.getInt("sol", DEFAULT_SOL_VALUE)
+            isFiltered = savedInstanceState.getBoolean("isFiltered", false)
+            activeTab = savedInstanceState.getInt("activeTab", DEFAULT_ACTIVE_TAB)
+            page = savedInstanceState.getInt("page", DEFAULT_PAGE)
+            if (isFiltered) {
+
+            }
+        }
+
+        binding.tbBottomTabBar.itemActiveIndex = activeTab
         binding.tbBottomTabBar.setOnItemSelectedListener {
             activeTab = it
-            isFiltered = false
-            binding.btClearFilter.visibility = View.INVISIBLE
             resetCollectionView()
-            when (it) {
-                0 -> viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
-                1 -> viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
-                2 -> viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
-            }
+            resetFilters()
+            binding.btClearFilter.visibility = View.INVISIBLE
+            viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
         }
 
         binding.btFilter.setOnClickListener {
@@ -59,8 +70,8 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
         }
 
         binding.btClearFilter.setOnClickListener {
-            isFiltered = false
             resetCollectionView()
+            resetFilters()
             binding.btClearFilter.visibility = View.INVISIBLE
             viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
         }
@@ -68,7 +79,7 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
         binding.btChangeSolValue.setOnClickListener {
             val bottomSheet: ChangeSolValuePopupFragment =
                 ChangeSolValuePopupFragment().newInstance(activeTab)
-            bottomSheet.show(supportFragmentManager, "FILTER_BOTTOM_SHEET_FRAGMENT")
+            bottomSheet.show(supportFragmentManager, "CHANGE_SOL_VALUE_POP_UP_FRAGMENT")
         }
 
         photosRecyclerViewAdapter = PhotosRecyclerViewAdapter(this@HomeActivity, mutableListOf())
@@ -86,11 +97,23 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
                 // eger herhangi bir kamera filtresi aktifse, api istegi yapilan url'e camera query parametresi ekle
                 // boylece filter() calistiktan sonra yuklenen fotograflar filtre kapatilana kadar secilen kameradan gelir
                 viewModel.loadData(
-                    activeTab = activeTab, sol = sol, page = page + 1, camera = camera
+                    activeTab = activeTab,
+                    sol = sol,
+                    page = this@HomeActivity.page + page - 1,
+                    camera = camera
                 )
             }
         }
         binding.rvPhotos.addOnScrollListener(scrollListener)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("camera", camera)
+        outState.putInt("sol", sol)
+        outState.putInt("activeTab", activeTab)
+        outState.putBoolean("isFiltered", isFiltered)
+        outState.putInt("page", this@HomeActivity.page + scrollListener.getCurrentPageIndex() - 1)
+        super.onSaveInstanceState(outState)
     }
 
     // reset CollectionView before fetching other rover's pictures
@@ -101,8 +124,13 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
         photosRecyclerViewAdapter.resetDataSet()
         viewModel.resetData()
         scrollListener.resetState()
-        camera = null
+    }
+
+    private fun resetFilters() {
+        isFiltered = false
         sol = DEFAULT_SOL_VALUE
+        camera = null
+        page = DEFAULT_PAGE
     }
 
     private fun processScreenState(state: Resource<List<Photo>>) {
@@ -136,11 +164,6 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
         binding.rvPhotos.visibility = View.VISIBLE
     }
 
-    companion object {
-        const val DEFAULT_ACTIVE_TAB = 0
-        const val DEFAULT_PAGE = 1
-    }
-
     // runs as soon as dialog's are closed
     // sol degeri degistirme ve kamera tipi filtresi fragment dialog'lari kapandiginda calisir
     // TODO: not the best solution fix this
@@ -159,12 +182,12 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
         if (value is Int) {
             val old = sol
             sol = value
-            scrollListener.resetCurrentPageIndex()
-            photosRecyclerViewAdapter.resetDataSet()
             if (value.toInt() != old) {
+                photosRecyclerViewAdapter.resetDataSet()
                 viewModel.loadData(
                     activeTab = activeTab, page = DEFAULT_PAGE, sol = sol, camera = camera
                 )
+                this.page = DEFAULT_PAGE
                 binding.btClearFilter.visibility = View.VISIBLE
             }
         }

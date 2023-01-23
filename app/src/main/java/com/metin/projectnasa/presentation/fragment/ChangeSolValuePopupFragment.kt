@@ -21,6 +21,8 @@ import com.metin.projectnasa.common.getMaxSolValueByRover
 
 class ChangeSolValuePopupFragment : DialogFragment() {
     private lateinit var etSolValue: EditText
+    private var randomGenerated: Int? = null
+
     fun newInstance(rover: Int): ChangeSolValuePopupFragment {
         val args = Bundle()
         args.putInt("rover", rover)
@@ -54,8 +56,15 @@ class ChangeSolValuePopupFragment : DialogFragment() {
         val tvInfo: TextView = view.findViewById(R.id.tvInfo)
         etSolValue = view.findViewById(R.id.etSolValue)
         val btClose: AppCompatButton = view.findViewById(R.id.btClose)
+        val btRandom: AppCompatButton = view.findViewById(R.id.btRandom)
 
         tvInfo.text = "Max sol value for ${rovers[rover]} is:\n${getMaxSolValueByRover(rover)}"
+
+        btRandom.setOnClickListener {
+            val max = getMaxSolValueByRover(rover)
+            randomGenerated = (0..max).random()
+            requireDialog().dismiss()
+        }
 
         btClose.setOnClickListener {
             requireDialog().dismiss()
@@ -65,7 +74,9 @@ class ChangeSolValuePopupFragment : DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        val sol = if (etSolValue.text.isNotEmpty()) {
+        val sol = if (randomGenerated != null) {
+            randomGenerated
+        } else if (etSolValue.text.isNotEmpty()) {
             etSolValue.text.toString().toInt()
         } else {
             DEFAULT_SOL_VALUE
@@ -76,5 +87,7 @@ class ChangeSolValuePopupFragment : DialogFragment() {
             dialog,
             sol
         )
+
+        randomGenerated = null
     }
 }

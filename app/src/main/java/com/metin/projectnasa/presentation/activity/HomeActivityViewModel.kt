@@ -20,7 +20,7 @@ import javax.inject.Inject
 class HomeActivityViewModel @Inject constructor(private val repository: NASARepository) :
     ViewModel() {
     val allPhotos: MutableList<Photo> = mutableListOf()
-    var filteredPhotos: List<Photo> = emptyList()
+    private var filteredPhotos: List<Photo> = emptyList()
 
     private val _photos = MutableLiveData<Resource<List<Photo>>>()
     val photos: LiveData<Resource<List<Photo>>>
