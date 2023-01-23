@@ -10,20 +10,20 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.metin.projectnasa.common.Constants.DEFAULT_SOL_VALUE
 import com.metin.projectnasa.domain.adapter.PhotosRecyclerViewAdapter
-import com.metin.projectnasa.presentation.fragment.filter.FilterBottomSheetFragment
-import com.metin.projectnasa.common.EndlessRecyclerViewScrollListener
+import com.metin.projectnasa.presentation.fragment.FilterBottomSheetFragment
+import com.metin.projectnasa.common.InfiniteRecyclerViewScrollListener
 import com.metin.projectnasa.common.Resource
 import com.metin.projectnasa.data.model.Photo
 import com.metin.projectnasa.databinding.ActivityHomeBinding
 import com.metin.projectnasa.common.DialogDismissListener
-import com.metin.projectnasa.presentation.fragment.change_sol.ChangeSolValueFragment
+import com.metin.projectnasa.presentation.fragment.ChangeSolValuePopupFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity(), DialogDismissListener {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var photosRecyclerViewAdapter: PhotosRecyclerViewAdapter
-    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private lateinit var scrollListener: InfiniteRecyclerViewScrollListener
     private var isFiltered = false
     private var activeTab = DEFAULT_ACTIVE_TAB
     private var camera: String? = null
@@ -66,8 +66,8 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
         }
 
         binding.btChangeSolValue.setOnClickListener {
-            val bottomSheet: ChangeSolValueFragment =
-                ChangeSolValueFragment().newInstance(activeTab)
+            val bottomSheet: ChangeSolValuePopupFragment =
+                ChangeSolValuePopupFragment().newInstance(activeTab)
             bottomSheet.show(supportFragmentManager, "FILTER_BOTTOM_SHEET_FRAGMENT")
         }
 
@@ -80,7 +80,7 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
         }
 
         // infinite scrolling
-        scrollListener = object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
+        scrollListener = object : InfiniteRecyclerViewScrollListener(gridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                 // if any camera filter is chosen we need to add camera to our api request as a query param
                 // eger herhangi bir kamera filtresi aktifse, api istegi yapilan url'e camera query parametresi ekle
@@ -94,7 +94,9 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
     }
 
     // reset CollectionView before fetching other rover's pictures
+    // call when changing tab or clearing the filters
     // Diger rover fotograflarini indrimeye baslamadan once CollectionView'i sifirla
+    // yeni bir tab'e gecmeden once ya da filtreleri temizledikden hemen sonra cagirilir
     private fun resetCollectionView() {
         photosRecyclerViewAdapter.resetDataSet()
         viewModel.resetData()
@@ -125,6 +127,7 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
         }
     }
 
+    // Verinin yuklenmesi bittiginde cagirilir.
     private fun showRecyclerView() {
         binding.shimmerLayout.apply {
             stopShimmer()
@@ -138,7 +141,8 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
         const val DEFAULT_PAGE = 1
     }
 
-    // runs as soon as dialog's closed
+    // runs as soon as dialog's are closed
+    // sol degeri degistirme ve kamera tipi filtresi fragment dialog'lari kapandiginda calisir
     // TODO: not the best solution fix this
     override fun <T> handleDialogClose(dialog: DialogInterface, value: T) {
         if (value is String) {
@@ -156,6 +160,7 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
             val old = sol
             sol = value
             scrollListener.resetCurrentPageIndex()
+            photosRecyclerViewAdapter.resetDataSet()
             if (value.toInt() != old) {
                 viewModel.loadData(
                     activeTab = activeTab, page = DEFAULT_PAGE, sol = sol, camera = camera

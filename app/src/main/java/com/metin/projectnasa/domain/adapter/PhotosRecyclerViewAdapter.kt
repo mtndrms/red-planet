@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.metin.projectnasa.R
 import com.metin.projectnasa.data.model.Photo
-import com.metin.projectnasa.presentation.fragment.details.DetailsPopupFragment
+import com.metin.projectnasa.presentation.fragment.DetailsPopupFragment
 import com.squareup.picasso.Picasso
 import okhttp3.internal.notify
 import okhttp3.internal.notifyAll
@@ -55,6 +55,7 @@ class PhotosRecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
+    // show filtered photos
     fun pushFilteredList(list: List<Photo>) {
         photos.clear()
         photos.addAll(list)

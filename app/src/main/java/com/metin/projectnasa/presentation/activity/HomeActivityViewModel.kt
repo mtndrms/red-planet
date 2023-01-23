@@ -76,6 +76,7 @@ class HomeActivityViewModel @Inject constructor(private val repository: NASARepo
         return repository.getPhotosByRover(
             roverName = Constants.rovers[activeTab].lowercase(),
             camera = camera,
+            api_key = Constants.API_KEY,
             sol = sol,
             page = page
         )

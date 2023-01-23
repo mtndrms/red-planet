@@ -10,7 +10,7 @@ object ApiClient {
     fun getClient(): Retrofit {
         if (retrofit == null) {
             retrofit =
-                Retrofit.Builder().baseUrl(Constants.NO_LIMIT_API_BASE_URL)
+                Retrofit.Builder().baseUrl(Constants.NASA_API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
         }
