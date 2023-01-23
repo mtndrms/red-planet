@@ -29,4 +29,5 @@
 ![Click here](./preview.mp4) or ![here](https://github.com/mtndrms/project-nasa/raw/master/preview.mp4) to download video directly
 
 ## Screenshots
-<img src="./screenshots/0.png" width="256" height="480"><img src="./screenshots/1.png" width="256" height="480"><img src="./screenshots/2.png" width="256" height="480"><img src="./screenshots/3.png" width="256" height="480"><img src="./screenshots/4.png" width="256" height="480">
+<div align="center"><img src="./screenshots/0.png" width="216" height="480"><img src="./screenshots/1.png" width="216" height="480"><img src="./screenshots/2.png" width="216" height="480"><img src="./screenshots/4.png" width="216" height="480"> </div>
+
