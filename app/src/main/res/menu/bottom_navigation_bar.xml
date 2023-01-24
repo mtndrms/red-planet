@@ -5,11 +5,11 @@
         android:icon="@drawable/ic_launcher_foreground"
         android:title="@string/curiosity" />
     <item
-        android:id="@+id/opportunity"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="@string/opportunity" />
-    <item
         android:id="@+id/spirit"
         android:icon="@drawable/ic_launcher_foreground"
         android:title="@string/spirit" />
+    <item
+        android:id="@+id/opportunity"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="@string/opportunity" />
 </menu>

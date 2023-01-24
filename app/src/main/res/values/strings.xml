@@ -15,16 +15,4 @@
     <string name="got_it">Got it!</string>
     <string name="red_planet">Red Planet</string>
     <string name="enter_sol_value_here">Enter sol value here</string>
-
-    <string-array name="cameras">
-        <item>FHAZ - Front Hazard Avoidance Camera</item>
-        <item>RHAZ - Rear Hazard Avoidance Camera</item>
-        <item>MAST - Mast Camera</item>
-        <item>CHEMCAM - Chemistry and Camera Complex</item>
-        <item>MAHLI - Mars Hand Lens Imager</item>
-        <item>MARDI - Mars Descent Imager</item>
-        <item>NAVCAM - Navigation Camera</item>
-        <item>PANCAM - Panoramic Camera</item>
-        <item>MINITES - Miniature Thermal Emission Spectrometer</item>
-    </string-array>
 </resources>

@@ -1,5 +1,6 @@
 package com.metin.projectnasa.presentation.activity
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
@@ -31,6 +32,7 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
     private var camera: String? = null
     private var sol = DEFAULT_SOL_VALUE
     private var page = DEFAULT_PAGE
+    private lateinit var rovers: Set<String>
 
     private val viewModel: HomeActivityViewModel by lazy {
         ViewModelProvider(this)[HomeActivityViewModel::class.java]
@@ -42,6 +44,9 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
         setContentView(binding.root)
 
         val gridLayoutManager = GridLayoutManager(this, 3)
+        val prefs = getSharedPreferences("RED_PLANET", Context.MODE_PRIVATE)
+
+        rovers = prefs.getStringSet("rovers", emptySet()) as Set<String>
 
         if (savedInstanceState != null) {
             camera = savedInstanceState.getString("camera", null)
@@ -49,9 +54,6 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
             isFiltered = savedInstanceState.getBoolean("isFiltered", false)
             activeTab = savedInstanceState.getInt("activeTab", DEFAULT_ACTIVE_TAB)
             page = savedInstanceState.getInt("page", DEFAULT_PAGE)
-            if (isFiltered) {
-
-            }
         }
 
         binding.tbBottomTabBar.itemActiveIndex = activeTab
@@ -60,7 +62,11 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
             resetCollectionView()
             resetFilters()
             binding.btClearFilter.visibility = View.INVISIBLE
-            viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
+            viewModel.loadData(
+                roverName = rovers.elementAt(activeTab),
+                page = DEFAULT_PAGE,
+                sol = sol
+            )
         }
 
         binding.btFilter.setOnClickListener {
@@ -73,7 +79,11 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
             resetCollectionView()
             resetFilters()
             binding.btClearFilter.visibility = View.INVISIBLE
-            viewModel.loadData(activeTab = activeTab, page = DEFAULT_PAGE, sol = sol)
+            viewModel.loadData(
+                roverName = rovers.elementAt(activeTab),
+                page = DEFAULT_PAGE,
+                sol = sol
+            )
         }
 
         binding.btChangeSolValue.setOnClickListener {
@@ -97,7 +107,7 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
                 // eger herhangi bir kamera filtresi aktifse, api istegi yapilan url'e camera query parametresi ekle
                 // boylece filter() calistiktan sonra yuklenen fotograflar filtre kapatilana kadar secilen kameradan gelir
                 viewModel.loadData(
-                    activeTab = activeTab,
+                    roverName = rovers.elementAt(activeTab),
                     sol = sol,
                     page = this@HomeActivity.page + page - 1,
                     camera = camera
@@ -185,7 +195,10 @@ class HomeActivity : AppCompatActivity(), DialogDismissListener {
             if (value.toInt() != old) {
                 photosRecyclerViewAdapter.resetDataSet()
                 viewModel.loadData(
-                    activeTab = activeTab, page = DEFAULT_PAGE, sol = sol, camera = camera
+                    roverName = rovers.elementAt(activeTab),
+                    page = DEFAULT_PAGE,
+                    sol = sol,
+                    camera = camera
                 )
                 this.page = DEFAULT_PAGE
                 binding.btClearFilter.visibility = View.VISIBLE

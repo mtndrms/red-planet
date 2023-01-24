@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.metin.projectnasa.domain.repository.NASARepository
 import com.metin.projectnasa.common.Constants
+import com.metin.projectnasa.common.Constants.DEFAULT_ROVER
 import com.metin.projectnasa.common.Constants.DEFAULT_SOL_VALUE
 import com.metin.projectnasa.common.Resource
 import com.metin.projectnasa.common.filterByCamera
@@ -28,7 +29,7 @@ class HomeActivityViewModel @Inject constructor(private val repository: NASARepo
 
     // load first data as soon as new instance created
     init {
-        loadData(activeTab = 0, page = 1, sol = DEFAULT_SOL_VALUE)
+        loadData(roverName = DEFAULT_ROVER, page = 1, sol = DEFAULT_SOL_VALUE)
     }
 
     fun resetData() {
@@ -36,9 +37,9 @@ class HomeActivityViewModel @Inject constructor(private val repository: NASARepo
         _photos.value = Resource.Success(allPhotos)
     }
 
-    fun loadData(activeTab: Int, sol: Int, page: Int, camera: String? = null) {
+    fun loadData(roverName: String, sol: Int, page: Int, camera: String? = null) {
         _photos.value = Resource.Loading(null)
-        requestData(camera = camera, sol = sol, activeTab = activeTab, page = page).enqueue(object :
+        requestData(camera = camera, sol = sol, roverName = roverName, page = page).enqueue(object :
             Callback<NASAResponseDto> {
             override fun onResponse(
                 call: Call<NASAResponseDto>,
@@ -68,12 +69,12 @@ class HomeActivityViewModel @Inject constructor(private val repository: NASARepo
 
     private fun requestData(
         camera: String? = null,
-        activeTab: Int,
+        roverName: String,
         sol: Int,
         page: Int
     ): Call<NASAResponseDto> {
         return repository.getPhotosByRover(
-            roverName = Constants.rovers[activeTab].lowercase(),
+            roverName = roverName,
             camera = camera,
             api_key = Constants.API_KEY,
             sol = sol,

@@ -1,6 +1,5 @@
 package com.metin.projectnasa.domain.repository
 
-import com.metin.projectnasa.common.Constants.DEFAULT_SOL_VALUE
 import com.metin.projectnasa.data.model.NASAResponseDto
 import com.metin.projectnasa.data.model.RoverX
 import com.metin.projectnasa.data.model.Rovers

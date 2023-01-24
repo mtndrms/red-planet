@@ -75,14 +75,6 @@ abstract class InfiniteRecyclerViewScrollListener(layoutManager: GridLayoutManag
         loading = true
     }
 
-    fun resetCurrentPageIndex() {
-        currentPage = startingPageIndex
-    }
-
-    fun setCurrentPageIndex(page: Int) {
-        currentPage = page
-    }
-
     fun getCurrentPageIndex(): Int {
         return currentPage
     }

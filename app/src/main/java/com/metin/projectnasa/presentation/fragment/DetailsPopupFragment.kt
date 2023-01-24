@@ -16,7 +16,6 @@ import com.metin.projectnasa.data.model.Photo
 import com.squareup.picasso.Picasso
 import java.util.*
 
-
 class DetailsPopupFragment : DialogFragment() {
     fun newInstance(photo: Photo): DetailsPopupFragment {
         val args = Bundle()
