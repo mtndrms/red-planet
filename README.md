@@ -1,11 +1,3 @@
-| :earth_americas:          | :waning_crescent_moon:                   |
-| ------------------------- | ---------------------------------------- |
-| Architecture Patterns     | Clean Architecture, MVVM                 |
-| Architecture Components   | LiveData, ViewModel                      |
-| Depenency Injection       | Dagger - Hilt                            |
-| Unit Test                 |                     -                    |
-| Additional Libraries Used | Picasso, Dagger - Hilt, Facebook Shimmer |
-
 # Screen Record
 ![Click here](./preview.webm) or ![here](https://github.com/mtndrms/project-nasa/raw/master/preview.webm) to watch directly
 
