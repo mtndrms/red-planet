@@ -5,4 +5,4 @@
 | <img src="./screenshots/3.png" width="216" height="444">| <img src="./screenshots/4.png" width="216" height="444"> | <img src="./screenshots/5.png" width="216" height="444">|
 
 # Screen Record
-![Click here](./preview.webm) or ![here](https://github.com/mtndrms/project-nasa/raw/master/preview.webm) to watch directly
+![Click here](https://raw.githubusercontent.com/mtndrms/red-planet/master/preview.webm) to watch.
